@@ -17,18 +17,18 @@ local WaitForChildOfClass do
 			local Offset = TimeOut or 5
 			local StartTime = tick()
 
-			while not Child and StartTime + Offset > tick() do
+			repeat
 				wait()
 				Child = Parent:FindFirstChildOfClass(ClassName)
-			end
+			until Child or StartTime + Offset < tick()
 
 			if not TimeOut then
 				warn("Infinite yield possible for WaitForChildOfClass(" .. Parent:GetFullName() .. ", \"" .. tostring(ClassName) .. "\")\n" .. traceback())
 
-				while not Child do
+				repeat
 					wait()
 					Child = Parent:FindFirstChildOfClass(ClassName)
-				end
+				until Child
 			end
 		end
 
